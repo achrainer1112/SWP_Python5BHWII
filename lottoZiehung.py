@@ -11,7 +11,7 @@ def ziehung():
         zahlen.append(i);
 
     for i in range(0,6):
-        randomNumber = random.randint(1,len(zahlen)-1);
+        randomNumber = random.randrange(0,len(zahlen)-i);
         element = zahlen.pop(randomNumber);
         zahlen.append(element);
         statistik[element] = statistik[element]+1;
@@ -20,5 +20,6 @@ def ziehung():
 for i in range(1000):
     zahlen = [];
     ziehung()
+
 
 print(statistik)
