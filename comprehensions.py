@@ -3,7 +3,7 @@ def list_comprehension(r):
     return ungeradeZahlen
 
 def set_comprehension(wort):
-    vokale = [c  if c not in "aeiou" else "Vokal" for c in wort]
+    vokale = [c  if c not in "aeiou" else "Vokal" for c in wort.lower()]
     return vokale
 
 def dict_comprehension(woerter):
