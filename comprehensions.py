@@ -3,7 +3,7 @@ def list_comprehension(r):
     return ungeradeZahlen
 
 def set_comprehension(wort):
-    vokale = [c  if c not in "aeiou" else "Vokal" for c in wort.lower()]
+    vokale = {c  if c not in "aeiou" else "Vokal" for c in wort.lower()}
     return vokale
 
 def dict_comprehension(woerter):
@@ -13,13 +13,13 @@ def dict_comprehension(woerter):
 
 
 def main():
-    range = 10
+    r = 10
     wort = "Ananassaft"
     woerter = ["Baumeister", "Christian", "Kiwi"]
 
-    print(list_comprehension(range))
+    print(list_comprehension(r))
     print(set_comprehension(wort))
     print(dict_comprehension(woerter))
 
 if __name__ == '__main__':
-    main();
+    main()
