@@ -1,3 +1,5 @@
+import string
+
 def list_comprehension(r):
     ungeradeZahlen = [zahl for zahl in range(r) if zahl % 2 == 1]
     return ungeradeZahlen
