@@ -1,20 +1,18 @@
 import random
 
+
 def deckErzeugen():
     # Farbe: 0 = Herz  |  1 = Karo  |  2 = Pik  |  3 = Kreuz
     # Wert: 2-10 = Zahlenkarten  |  11 = Bube (J)  |  12 = Dame (Q)  |  13 = König (K)  |  14 = Ass (A)
     deck = [(farbe, wert) for farbe in range(4) for wert in range(2, 15)]
     return deck
 
-def ziehung(deck,anzahlKarten):
-    gezogeneKarten = []
-    for i in range(anzahlKarten):
-        index = random.randint(0,len(deck)-1)
-        gezogeneKarten.append(deck[index])
-    return gezogeneKarten
+
+def ziehung(deck, anzahlKarten):
+    return random.sample(deck, anzahlKarten)
 
 
-#Kombinationen
+# Kombinationen
 
 def hatPaar(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
@@ -23,12 +21,14 @@ def hatPaar(gezogeneKarten):
     else:
         return False
 
+
 def hatZweiPaare(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
     if list(haeufigkeiten.values()).count(2) == 2:
         return True
     else:
         return False
+
 
 def hatDrilling(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
@@ -37,13 +37,27 @@ def hatDrilling(gezogeneKarten):
     else:
         return False
 
+
 def hatStrasse(gezogeneKarten):
-    #Sonderfall mit Ass einbauen???
-    werte=werteSortieren(gezogeneKarten)
-    for i in range(1,len(werte)):
-        if (werte[i]-1) != werte[i-1]:
-            return False
-    return True
+    werte = werteSortieren(gezogeneKarten)
+
+    # Normaler Fall: aufeinanderfolgende Werte prüfen
+    ist_strasse = True
+    for i in range(1, len(werte)):
+        if (werte[i] - 1) != werte[i - 1]:
+            ist_strasse = False
+            break
+
+    if ist_strasse:
+        return True
+
+    # Sonderfall: Ass als niedrigste Karte (A-2-3-4-5)
+    if 14 in werte:
+        if werte == [2, 3, 4, 5, 14]:
+            return True
+
+    return False
+
 
 def hatFlush(gezogeneKarten):
     farben = farbenExtrahieren(gezogeneKarten)
@@ -52,11 +66,13 @@ def hatFlush(gezogeneKarten):
             return False
     return True
 
+
 def hatFullHouse(gezogeneKarten):
-    if(hatPaar(gezogeneKarten) and hatDrilling(gezogeneKarten)):
+    if (hatPaar(gezogeneKarten) and hatDrilling(gezogeneKarten)):
         return True
     else:
         return False
+
 
 def hatVierling(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
@@ -65,14 +81,16 @@ def hatVierling(gezogeneKarten):
     else:
         return False
 
+
 def hatStraigthFlush(gezogeneKarten):
-    if(hatFlush(gezogeneKarten) and hatStrasse(gezogeneKarten)):
+    if (hatFlush(gezogeneKarten) and hatStrasse(gezogeneKarten)):
         return True
     else:
         return False
 
+
 def hatRoyalFlush(gezogeneKarten):
-    if(hatStraigthFlush(gezogeneKarten) and werteSortieren(gezogeneKarten)[0] == 10):
+    if (hatStraigthFlush(gezogeneKarten) and werteSortieren(gezogeneKarten)[0] == 10):
         return True
     else:
         return False
@@ -83,28 +101,30 @@ def hatRoyalFlush(gezogeneKarten):
 def farbenExtrahieren(gezogeneKarten):
     return [karte[0] for karte in gezogeneKarten]
 
+
 def werteExtrahieren(gezogeneKarten):
     return [karte[1] for karte in gezogeneKarten]
+
 
 def werteSortieren(gezogeneKarten):
     werte = werteExtrahieren(gezogeneKarten)
     werte.sort()
     return werte
 
+
 def zaehleHaeufigkeiten(gezogeneKarten):
     haeufigkeiten = {}
     werte = werteExtrahieren(gezogeneKarten)
     for wert in werte:
-        if(wert in haeufigkeiten):
+        if (wert in haeufigkeiten):
             haeufigkeiten[wert] += 1
         else:
             haeufigkeiten[wert] = 1
     return haeufigkeiten
 
 
-
-def auswertung(gezogeneKarten,kombinationen):
-    if(hatRoyalFlush(gezogeneKarten)):
+def auswertung(gezogeneKarten, kombinationen):
+    if (hatRoyalFlush(gezogeneKarten)):
         kombinationen["Royal Flush"] += 1
     elif hatStraigthFlush(gezogeneKarten):
         kombinationen["Straight Flush"] += 1
@@ -123,7 +143,8 @@ def auswertung(gezogeneKarten,kombinationen):
     elif hatPaar(gezogeneKarten):
         kombinationen["Paar"] += 1
 
-def analyse(kombinationen,durchlaeufe):
+
+def analyse(kombinationen, durchlaeufe):
     print("Wahrscheinlichkeiten:")
     for karte in kombinationen:
         wert = kombinationen[karte]
@@ -143,15 +164,15 @@ def main():
         "Paar": 0,
     }
 
-    durchlaeufe = 100000
+    durchlaeufe = 1000000
     deck = deckErzeugen()
 
     for i in range(durchlaeufe):
-        gezogeneKarten = ziehung(deck,5)
-        auswertung(gezogeneKarten,kombinationen)
+        gezogeneKarten = ziehung(deck, 5)
+        auswertung(gezogeneKarten, kombinationen)
 
     print(kombinationen)
-    analyse(kombinationen,durchlaeufe)
+    analyse(kombinationen, durchlaeufe)
 
 
 if __name__ == "__main__":
