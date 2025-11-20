@@ -16,26 +16,17 @@ def ziehung(deck, anzahlKarten):
 
 def hatPaar(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
-    if 2 in haeufigkeiten.values():
-        return True
-    else:
-        return False
+    return 2 in haeufigkeiten.values()
 
 
 def hatZweiPaare(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
-    if list(haeufigkeiten.values()).count(2) == 2:
-        return True
-    else:
-        return False
+    return list(haeufigkeiten.values()).count(2) == 2
 
 
 def hatDrilling(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
-    if 3 in haeufigkeiten.values():
-        return True
-    else:
-        return False
+    return 3 in haeufigkeiten.values()
 
 
 def hatStrasse(gezogeneKarten):
@@ -68,32 +59,20 @@ def hatFlush(gezogeneKarten):
 
 
 def hatFullHouse(gezogeneKarten):
-    if (hatPaar(gezogeneKarten) and hatDrilling(gezogeneKarten)):
-        return True
-    else:
-        return False
+    return hatPaar(gezogeneKarten) and hatDrilling(gezogeneKarten)
 
 
 def hatVierling(gezogeneKarten):
     haeufigkeiten = zaehleHaeufigkeiten(gezogeneKarten)
-    if 4 in haeufigkeiten.values():
-        return True
-    else:
-        return False
+    return 4 in haeufigkeiten.values()
 
 
 def hatStraigthFlush(gezogeneKarten):
-    if (hatFlush(gezogeneKarten) and hatStrasse(gezogeneKarten)):
-        return True
-    else:
-        return False
+    return hatFlush(gezogeneKarten) and hatStrasse(gezogeneKarten)
 
 
 def hatRoyalFlush(gezogeneKarten):
-    if (hatStraigthFlush(gezogeneKarten) and werteSortieren(gezogeneKarten)[0] == 10):
-        return True
-    else:
-        return False
+    return hatStraigthFlush(gezogeneKarten) and werteSortieren(gezogeneKarten)[0] == 10
 
 
 # Hilfsfunktionen
@@ -177,3 +156,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
