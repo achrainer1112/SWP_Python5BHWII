@@ -5,11 +5,9 @@ class Person:
         self._name = name
         self._geschlecht = geschlecht.lower()
 
-    @property
     def name(self):
         return self._name
 
-    @property
     def geschlecht(self):
         return self._geschlecht
 
@@ -23,7 +21,6 @@ class Mitarbeiter(Person):
         self._abteilung = abteilung
         abteilung.add_mitarbeiter(self)
 
-    @property
     def abteilung(self):
         return self._abteilung
 
@@ -46,15 +43,12 @@ class Abteilung:
         self._mitarbeiter: List[Mitarbeiter] = []
         self._leiter: Optional[Abteilungsleiter] = None
 
-    @property
     def name(self):
         return self._name
 
-    @property
     def mitarbeiter(self):
         return self._mitarbeiter
 
-    @property
     def leiter(self):
         return self._leiter
 
@@ -76,7 +70,6 @@ class Firma:
         self._name = name
         self._abteilungen: List[Abteilung] = []
 
-    @property
     def abteilungen(self):
         return self._abteilungen
 
@@ -113,31 +106,34 @@ class Firma:
         return {"Frauen": round(frauen / gesamt * 100, 1), "Männer": round(maenner / gesamt * 100, 1)}
 
 
-# Beispiel wie man ein Firmenobjekt erstellt
-firma = Firma("Tech AG")
+def main():
+    firma = Firma("Tech AG")
+    
+    it = Abteilung("IT")
+    hr = Abteilung("HR")
+    vertrieb = Abteilung("Vertrieb")
+    
+    firma.add_abteilung(it)
+    firma.add_abteilung(hr)
+    firma.add_abteilung(vertrieb)
+    
+    Abteilungsleiter("Alice", "w", it)
+    Abteilungsleiter("Bob", "m", hr)
+    Abteilungsleiter("Clara", "w", vertrieb)
+    
+    Mitarbeiter("David", "m", it)
+    Mitarbeiter("Eva", "w", it)
+    Mitarbeiter("Frank", "m", hr)
+    Mitarbeiter("Gina", "w", vertrieb)
+    Mitarbeiter("Hugo", "m", vertrieb)
+    
+    print(f"Firma {firma._name}")
+    print(f"Anzahl Abteilungen: {firma.abteilungsanzahl()}")
+    print(f"Anzahl Mitarbeiter: {firma.mitarbeiter_anzahl()}")
+    print(f"Anzahl Abteilungsleiter: {firma.abteilungsleiter_anzahl()}")
+    groesste = firma.abteilung_groesste_mitarbeiterzahl()
+    print(f"Größte Abteilung: {groesste.name} mit {groesste.mitarbeiterzahl()} Mitarbeitern")
+    print(f"Prozent Frauen/Männer: {firma.prozent_frauen_maenner()}")
 
-it = Abteilung("IT")
-hr = Abteilung("HR")
-vertrieb = Abteilung("Vertrieb")
-
-firma.add_abteilung(it)
-firma.add_abteilung(hr)
-firma.add_abteilung(vertrieb)
-
-Abteilungsleiter("Alice", "w", it)
-Abteilungsleiter("Bob", "m", hr)
-Abteilungsleiter("Clara", "w", vertrieb)
-
-Mitarbeiter("David", "m", it)
-Mitarbeiter("Eva", "w", it)
-Mitarbeiter("Frank", "m", hr)
-Mitarbeiter("Gina", "w", vertrieb)
-Mitarbeiter("Hugo", "m", vertrieb)
-
-print(f"Firma {firma._name}")
-print(f"Anzahl Abteilungen: {firma.abteilungsanzahl()}")
-print(f"Anzahl Mitarbeiter: {firma.mitarbeiter_anzahl()}")
-print(f"Anzahl Abteilungsleiter: {firma.abteilungsleiter_anzahl()}")
-groesste = firma.abteilung_groesste_mitarbeiterzahl()
-print(f"Größte Abteilung: {groesste.name} mit {groesste.mitarbeiterzahl()} Mitarbeitern")
-print(f"Prozent Frauen/Männer: {firma.prozent_frauen_maenner()}")
+if __name__ == "__main__":
+    main()
